@@ -7,8 +7,10 @@ swagger = Swagger(app)
 books = []
 
 @app.route('/')
-@app.route('/books', methods=['GET'])
-def get_books():
+def home():
+    return 'Welcome to the Bookstore!'
+@app.route('/bookswithcriteria', methods=['GET'])
+def get_books_with_criteria():
     """
     Get all books or filter books by author, published year, or genre
     ---
@@ -57,7 +59,23 @@ def get_books():
         filtered_books = [book for book in filtered_books if book['genre'] == genre]
 
     return jsonify(filtered_books)
-
+@app.route('/books', methods=['GET'])
+def get_all_books():
+    """
+    Get all books
+    ---
+    responses:
+      200:
+        description: A list of books
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+    """
+    return jsonify(books)
 @app.route('/books', methods=['POST'])
 def create_book():
     """
